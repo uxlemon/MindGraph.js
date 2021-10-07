@@ -118,8 +118,8 @@ export default class MapGraph extends BasicMapGraph {
           const draggingNode = new MapNode(node.id, node.type(), node.depth, node.text(), node.comment());
           let newPos = this.canvasToDom(node.position());
           newPos = this.domToCanvas({
-            x: newPos.x + ev.offsetX * this.ratio - this._mouseLeftStartPos.x,
-            y: newPos.y + ev.offsetY * this.ratio - this._mouseLeftStartPos.y
+            x: newPos.x + ev.offsetX - this._mouseLeftStartPos.x,
+            y: newPos.y + ev.offsetY - this._mouseLeftStartPos.y
           });
           draggingNode.position(newPos);
           const style = _.getScaledNodeStyle(draggingNode.type(), this._scale);
@@ -130,8 +130,8 @@ export default class MapGraph extends BasicMapGraph {
 
           // render insert mark
           const pos: Vec2 = this.domToCanvas({
-            x: ev.offsetX * this.ratio,
-            y: ev.offsetY * this.ratio
+            x: ev.offsetX,
+            y: ev.offsetY
           });
           const targetNode = this._getNodeAtPosition(pos);
           if (targetNode && targetNode.parent && !targetNode.isDescendentOf(draggingNode)) {
@@ -142,19 +142,19 @@ export default class MapGraph extends BasicMapGraph {
           this._needsRerender = true;
         }
       } else {
-        // dragging canvas
-        const deltaPos: Vec2 = {
-          x: ev.movementX,
-          y: ev.movementY
-        };
-        const trans = this._translate;
-        this.translate({
-          x: trans.x + deltaPos.x,
-          y: trans.y + deltaPos.y
-        });
+        // TODO: box select nodes
       }
     } else if (this._mouseRightDragging) {
-      // TODO: right mouse dragging logic
+      // dragging canvas
+      const deltaPos: Vec2 = {
+        x: ev.movementX,
+        y: ev.movementY
+      };
+      const trans = this._translate;
+      this.translate({
+        x: trans.x + deltaPos.x * this.ratio,
+        y: trans.y + deltaPos.y * this.ratio
+      });
     }
   }
 
@@ -192,8 +192,8 @@ export default class MapGraph extends BasicMapGraph {
   private _handleDoubleClick = (ev: MouseEvent) => {
     if (ev.button === 0) {
       const pos: Vec2 = this.domToCanvas({
-        x: ev.offsetX * this.ratio,
-        y: ev.offsetY * this.ratio
+        x: ev.offsetX,
+        y: ev.offsetY
       });
       const node = this._getNodeAtPosition(pos);
       if (!node) {
@@ -291,12 +291,12 @@ export default class MapGraph extends BasicMapGraph {
     const style = MAP_NODE_STYLES[node.type()];
     const textPadding = style.borderWidth;
     const inputLT: Vec2 = this.canvasToDom({
-      x: node.position().x + textPadding,
-      y: node.position().y + textPadding,
+      x: (node.position().x + textPadding),
+      y: (node.position().y + textPadding),
     });
     const inputSize: Size = {
-      w: (node.size().w - textPadding * 2) * this._scale,
-      h: (node.size().h - textPadding * 2) * this._scale
+      w: (node.size().w - textPadding * 2) * this._scale / this.ratio,
+      h: (node.size().h - textPadding * 2) * this._scale / this.ratio
     };
     const scaledStyle = _.getScaledNodeStyle(node.type(), this._scale);
     const input = document.createElement('input');

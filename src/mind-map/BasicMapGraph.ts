@@ -62,7 +62,7 @@ export default class BasicMapGraph {
     canvas.height = height * this.ratio;
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
-    canvas.getContext('2d').setTransform(this.ratio, 0, 0, this.ratio, 0, 0);
+    canvas.getContext('2d')?.setTransform(this.ratio, 0, 0, this.ratio, 0, 0);
     return canvas;
   }
 
@@ -216,15 +216,15 @@ export default class BasicMapGraph {
 
   canvasToDom(point: Vec2): Vec2 {
     return {
-      x: point.x * this._scale + this._center.x + this._translate.x,
-      y: point.y * this._scale + this._center.y + this._translate.y
+      x: (point.x * this._scale + this._center.x + this._translate.x) / this.ratio,
+      y: (point.y * this._scale + this._center.y + this._translate.y) / this.ratio
     };
   }
 
   domToCanvas(point: Vec2): Vec2 {
     return {
-      x: (point.x - this._center.x - this._translate.x) / this._scale,
-      y: (point.y - this._center.y - this._translate.y) / this._scale
+      x: (point.x * this.ratio - this._center.x - this._translate.x) / this._scale,
+      y: (point.y * this.ratio - this._center.y - this._translate.y) / this._scale
     };
   }
 
