@@ -26,9 +26,9 @@ export default class BasicMapGraph {
     this._nextNodeId = 0;
     this._root = new MapNode(this._nextNodeId++, 'root', 0, 'Main Theme');
     this._nodeIndices = { [this._root.id]: this._root };
-    const canvas = document.createElement('canvas');
-    canvas.width = this._parentDom.clientWidth;
-    canvas.height = this._parentDom.clientHeight;
+    const canvas = this.createCanvas(window.innerWidth, window.innerHeight);
+    // canvas.width = this._parentDom.clientWidth;
+    // canvas.height = this._parentDom.clientHeight;
     const container = document.createElement('div');
     container.id = 'mind-graph-map';
     container.style.width = '100%';
@@ -54,6 +54,17 @@ export default class BasicMapGraph {
     this._renderLoop = true;
     this._selectedNodeId = -1;
     this._copiedNode = null;
+  }
+
+  createCanvas(width: number, height: number) {
+    const ratio = Math.ceil(window.devicePixelRatio);
+    const canvas = document.createElement('canvas');
+    canvas.width = width * ratio;
+    canvas.height = height * ratio;
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    canvas.getContext('2d').setTransform(ratio, 0, 0, ratio, 0, 0);
+    return canvas;
   }
 
   scale(scale?: number): number {

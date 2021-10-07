@@ -13,6 +13,9 @@ const config = {
     filename: 'test.bundle.js'
   },
   devtool: 'eval-source-map',
+  devServer: {
+    static: './build',
+  },
   resolve: {
     extensions: [".ts", ".js"]
   },

@@ -10,19 +10,22 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack --config webpack.config.dev.js --watch",
     "dist": "cross-env NODE_ENV=production webpack --config webpack.config.dist.js",
-    "docs": "cross-env NODE_ENV=production webpack --config webpack.config.docs.js"
+    "docs": "cross-env NODE_ENV=production webpack --config webpack.config.docs.js",
+    "start": "cross-env NODE_ENV=development webpack --config webpack.config.dev.js serve"
   },
   "devDependencies": {
-    "clean-webpack-plugin": "^3.0.0",
-    "cross-env": "^6.0.3",
-    "css-loader": "^3.4.1",
-    "fork-ts-checker-webpack-plugin": "^3.1.1",
-    "html-webpack-plugin": "^3.2.0",
-    "style-loader": "^1.1.2",
-    "ts-loader": "^6.2.1",
-    "typescript": "^3.7.4",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "clean-webpack-plugin": "^4.0.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.3.0",
+    "fork-ts-checker-webpack-plugin": "^6.3.4",
+    "html-webpack-plugin": "^5.3.2",
+    "style-loader": "^3.3.0",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.4.3",
+    "webpack": "^5.57.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-middleware": "^5.2.1",
+    "webpack-dev-server": "^4.3.1"
   },
   "files": [
     "LICENSE",
