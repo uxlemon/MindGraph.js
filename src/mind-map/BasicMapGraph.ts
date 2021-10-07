@@ -20,6 +20,7 @@ export default class BasicMapGraph {
   protected _selectedNodeId: number;
   protected _copiedNode: MapNode | null;
   protected _nextNodeId: number;
+  public ratio = Math.ceil(window.devicePixelRatio);
 
   constructor(dom: HTMLElement) {
     this._parentDom = dom;
@@ -27,8 +28,6 @@ export default class BasicMapGraph {
     this._root = new MapNode(this._nextNodeId++, 'root', 0, 'Main Theme');
     this._nodeIndices = { [this._root.id]: this._root };
     const canvas = this.createCanvas(window.innerWidth, window.innerHeight);
-    // canvas.width = this._parentDom.clientWidth;
-    // canvas.height = this._parentDom.clientHeight;
     const container = document.createElement('div');
     container.id = 'mind-graph-map';
     container.style.width = '100%';
@@ -57,13 +56,13 @@ export default class BasicMapGraph {
   }
 
   createCanvas(width: number, height: number) {
-    const ratio = Math.ceil(window.devicePixelRatio);
+    
     const canvas = document.createElement('canvas');
-    canvas.width = width * ratio;
-    canvas.height = height * ratio;
+    canvas.width = width * this.ratio;
+    canvas.height = height * this.ratio;
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
-    canvas.getContext('2d').setTransform(ratio, 0, 0, ratio, 0, 0);
+    canvas.getContext('2d').setTransform(this.ratio, 0, 0, this.ratio, 0, 0);
     return canvas;
   }
 
